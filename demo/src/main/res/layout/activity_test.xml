@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <TextView
+        android:id="@+id/tv_anchor_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_five"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_six"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_seven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_eight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <TextView
+        android:id="@+id/tv_anchor_nine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="我是锚点我是锚点我是锚点" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:chipSpacing="10dp" />
+</RelativeLayout>
