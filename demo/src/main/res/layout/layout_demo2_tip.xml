@@ -20,7 +20,7 @@
         android:id="@+id/tv_tip_content"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="这里 paddingBottom 比其他 padding 多了 6pd 是为了留空间给三角箭头"
+        android:text="这里 paddingTop 比其他 padding 多了 6pd 是为了留空间给三角箭头"
         android:textColor="@android:color/white" />
 
     <TextView

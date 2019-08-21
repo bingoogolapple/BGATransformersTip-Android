@@ -5,7 +5,7 @@ Android 通用 PopupWindow，支持从锚点控件的各个位置弹出浮窗，
 
 ## 效果图
 
-![image](https://user-images.githubusercontent.com/8949716/63364888-0870a480-c3a9-11e9-9b95-c73f87eef5a4.png)
+![image](https://user-images.githubusercontent.com/8949716/63393442-b56d1080-c3ed-11e9-86bc-7ee4df4d2756.png)
 ![效果图](https://user-images.githubusercontent.com/8949716/63364704-b4fe5680-c3a8-11e9-9185-872fc1671430.png)
 
 ## 使用说明
@@ -110,7 +110,7 @@ new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
         android:id="@+id/tv_tip_content"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="这里 paddingBottom 比其他 padding 多了 6pd 是为了留空间给三角箭头"
+        android:text="这里 paddingTop 比其他 padding 多了 6pd 是为了留空间给三角箭头"
         android:textColor="@android:color/white" />
 
     <TextView
