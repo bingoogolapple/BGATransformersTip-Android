@@ -1,12 +1,15 @@
 package cn.bingoogolapple.transformerstip;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import androidx.annotation.DimenRes;
@@ -26,6 +29,7 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
     private int mTipGravity; // 浮窗相对于锚点控件展示的位置
     private int mTipOffsetX; // 浮窗在 x 轴的偏移量
     private int mTipOffsetY; // 浮窗在 y 轴的偏移量
+    private boolean mBackgroundDimEnabled = false; // 是否允许浮窗的背景变暗
 
     /**
      * 锚点控件
@@ -115,6 +119,14 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
      */
     public TransformersTip setTipOffsetYRes(@DimenRes int resId) {
         mTipOffsetY = mAnchorView.getResources().getDimensionPixelOffset(resId);
+        return this;
+    }
+
+    /**
+     * 设置是否允许浮窗的背景变暗
+     */
+    public TransformersTip setBackgroundDimEnabled(boolean backgroundDimEnabled) {
+        mBackgroundDimEnabled = backgroundDimEnabled;
         return this;
     }
 
@@ -222,6 +234,15 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         }
 
         PopupWindowCompat.showAsDropDown(this, mAnchorView, xoff, yoff, gravity);
+
+        if (mBackgroundDimEnabled) {
+            mAnchorView.post(new Runnable() {
+                @Override
+                public void run() {
+                    dimBehind();
+                }
+            });
+        }
     }
 
     private static int makeDropDownMeasureSpec(int measureSpec) {
@@ -232,6 +253,30 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
             mode = View.MeasureSpec.EXACTLY;
         }
         return View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(measureSpec), mode);
+    }
+
+    private void dimBehind() {
+        View container;
+        if (getBackground() == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                container = (View) getContentView().getParent();
+            } else {
+                container = getContentView();
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                container = (View) getContentView().getParent().getParent();
+            } else {
+                container = (View) getContentView().getParent();
+            }
+        }
+        WindowManager windowManager = (WindowManager) getContentView().getContext().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) container.getLayoutParams();
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParams.dimAmount = 0.3f;
+        if (windowManager != null) {
+            windowManager.updateViewLayout(container, layoutParams);
+        }
     }
 
     private int getToBottomOffsetY() {

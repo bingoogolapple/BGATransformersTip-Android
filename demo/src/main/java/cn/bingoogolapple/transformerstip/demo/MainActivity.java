@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }.setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
                 .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
                 .setTipOffsetYDp(0) // 设置浮窗在 y 轴的偏移量
+                .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
                 .show(); // 显示浮窗
     }
 
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }.setTipGravity(TipGravity.TO_BOTTOM_CENTER) // 设置浮窗相对于锚点控件展示的位置
                 .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
                 .setTipOffsetYDp(0) // 设置浮窗在 y 轴的偏移量
+                .setBackgroundDimEnabled(true) // 设置是否允许浮窗的背景变暗
                 .show(); // 显示浮窗
     }
 }
