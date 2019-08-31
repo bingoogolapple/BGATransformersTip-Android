@@ -43,6 +43,7 @@ public class ArrowDrawable extends Drawable {
     private int mShadowSize;
     private int mBgColor;
     private int mShadowColor;
+    private boolean mAlreadyExpandShadowAndArrowPadding;
 
     /**
      * 在 Java 代码中设置浮窗背景
@@ -89,7 +90,9 @@ public class ArrowDrawable extends Drawable {
 
     private void initCustomAttr(int attr, TypedArray typedArray) {
         if (attr == R.styleable.ArrowDrawable_ad_bgColor) {
-            mBgColor = typedArray.getColor(attr, Color.BLACK);
+            mBgColor = typedArray.getColor(attr, mBgColor);
+        } else if (attr == R.styleable.ArrowDrawable_ad_shadowColor) {
+            mShadowColor = typedArray.getColor(attr, mShadowColor);
         } else if (attr == R.styleable.ArrowDrawable_ad_arrowHeight) {
             mArrowHeight = typedArray.getDimensionPixelSize(attr, mArrowHeight);
         } else if (attr == R.styleable.ArrowDrawable_ad_shadowSize) {
@@ -333,21 +336,29 @@ public class ArrowDrawable extends Drawable {
         invalidateSelf();
     }
 
-    void expandShadowAndArrowPadding(Rect rect) {
-        rect.left += mShadowSize;
-        rect.top += mShadowSize;
-        rect.right += mShadowSize;
-        rect.bottom += mShadowSize;
+    public void expandShadowAndArrowPadding(View contentView) {
+        if (mAlreadyExpandShadowAndArrowPadding) {
+            // 使用 TransformersTipLinearLayout 或 TransformersTipRelativeLayout 优化预览效果时已经调用过了
+            return;
+        }
+        mAlreadyExpandShadowAndArrowPadding = true;
+
+        Rect paddingRect = new Rect();
+        paddingRect.left = contentView.getPaddingStart() + mShadowSize;
+        paddingRect.top = contentView.getPaddingTop() + mShadowSize;
+        paddingRect.right = contentView.getPaddingEnd() + mShadowSize;
+        paddingRect.bottom = contentView.getPaddingBottom() + mShadowSize;
 
         if (isExist(HorizontalGravity.TO_START)) {
-            rect.left += mArrowHeight;
+            paddingRect.left += mArrowHeight;
         } else if (isExist(VerticalGravity.TO_TOP)) {
-            rect.top += mArrowHeight;
+            paddingRect.top += mArrowHeight;
         } else if (isExist(HorizontalGravity.TO_END)) {
-            rect.right += mArrowHeight;
+            paddingRect.right += mArrowHeight;
         } else if (isExist(VerticalGravity.TO_BOTTOM)) {
-            rect.bottom += mArrowHeight;
+            paddingRect.bottom += mArrowHeight;
         }
+        contentView.setPaddingRelative(paddingRect.left, paddingRect.top, paddingRect.right, paddingRect.bottom);
     }
 
     private boolean isExist(int directionGravity) {

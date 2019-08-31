@@ -31,72 +31,12 @@ dependencies {
 }
 ```
 
-### 方式一：在 Java 代码中设置浮窗位置、浮窗背景、箭头位置
-* 添加浮窗布局文件
+### 方式一：在 Java 代码中设置浮窗位置，在布局文件中设置浮窗背景、箭头位置
+* 这种方式的优点是可以提前查看预览效果，提升开发效率
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+![preview](https://user-images.githubusercontent.com/8949716/64067626-5b2a4600-cc5e-11e9-9ffe-6e0891a9f72d.png)
 
-    <TextView
-        android:id="@+id/tv_tip_content"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="B -> bingo\nG googol\nA -> apple\nBGA -> bingoogolapple"
-        android:textColor="@android:color/black" />
-
-    <TextView
-        android:id="@+id/tv_tip_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="6dp"
-        android:layout_gravity="top"
-        android:padding="4dp"
-        android:text="x"
-        android:textColor="@android:color/black" />
-</LinearLayout>
-```
-* 在 Java 代码中设置浮窗位置、浮窗背景、箭头位置
-```Java
-new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
-    @Override
-    protected void initBackground(View contentView) {
-        // 在 Java 代码中设置浮窗背景以及箭头位置
-        new ArrowDrawable(contentView)
-                .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
-                .setBgColor(Color.WHITE) // 设置背景色
-                .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
-                .setArrowHeightDp(6) // 设置箭头高度，为 0 是没有箭头
-                .setRadiusDp(4) // 设置浮窗圆角半径
-                .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
-                .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
-                .setShadowSizeDp(6); // 设置阴影宽度，为 0 时没有阴影
-    }
-
-    @Override
-    protected void initView(View contentView) {
-        // 点击浮窗中自定按钮关闭浮窗
-        contentView.findViewById(R.id.tv_tip_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-    }
-}.setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
-        .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
-        .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
-        .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
-        .show(); // 显示浮窗
-```
-
-### 方式二：在 Java 代码中设置浮窗位置，在布局文件中设置浮窗背景、箭头位置
-* 添加浮窗布局文件，在布局文件中设置浮窗背景、箭头位置。优点是可以提前预览效果
+* 添加浮窗布局文件，在布局文件中设置浮窗背景、箭头位置
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -152,6 +92,73 @@ new TransformersTip(anchorView, R.layout.layout_demo2_tip) {
         .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
         .setTipOffsetYDp(-6) // 设置浮窗在 y 轴的偏移量
         .setBackgroundDimEnabled(true) // 设置是否允许浮窗的背景变暗
+        .show(); // 显示浮窗
+```
+
+### 方式二：在 Java 代码中设置浮窗位置、浮窗背景、箭头位置
+
+* 添加浮窗布局文件
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_tip_content"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="B -> bingo\nG googol\nA -> apple\nBGA -> bingoogolapple"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tv_tip_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_gravity="top"
+        android:padding="4dp"
+        android:text="x"
+        android:textColor="@android:color/black" />
+</LinearLayout>
+```
+
+* 在 Java 代码中设置浮窗位置、浮窗背景、箭头位置
+
+```Java
+new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
+    @Override
+    protected void initBackground(View contentView) {
+        // 在 Java 代码中设置浮窗背景以及箭头位置
+        new ArrowDrawable(contentView)
+                .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
+                .setBgColor(Color.WHITE) // 设置背景色
+                .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
+                .setArrowHeightDp(6) // 设置箭头高度，为 0 是没有箭头
+                .setRadiusDp(4) // 设置浮窗圆角半径
+                .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
+                .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
+                .setShadowSizeDp(6); // 设置阴影宽度，为 0 时没有阴影
+    }
+
+    @Override
+    protected void initView(View contentView) {
+        // 点击浮窗中自定按钮关闭浮窗
+        contentView.findViewById(R.id.tv_tip_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+    }
+}.setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
+        .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
+        .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
+        .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
         .show(); // 显示浮窗
 ```
 

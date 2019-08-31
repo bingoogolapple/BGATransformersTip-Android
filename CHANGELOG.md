@@ -4,6 +4,11 @@ Change Log
 Version 1.0.3 *(2019-8-31)*
 ----------------------------
 
+* 优化 TransformersTipLinearLayout 和 TransformersTipRelativeLayout 在布局文件中的预览效果，提升开发效率
+
+Version 1.0.2 *(2019-8-31)*
+----------------------------
+
 * fix #2，新增四周阴影功能
   * ad_shadowSize 设置阴影宽度
   * ad_shadowColor 设置阴影颜色

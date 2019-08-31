@@ -3,7 +3,6 @@ package cn.bingoogolapple.transformerstip;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -168,13 +167,7 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         }
 
         ArrowDrawable arrowDrawable = (ArrowDrawable) background;
-        Rect paddingRect = new Rect();
-        paddingRect.left = contentView.getPaddingStart();
-        paddingRect.top = contentView.getPaddingTop();
-        paddingRect.right = contentView.getPaddingEnd();
-        paddingRect.bottom = contentView.getPaddingBottom();
-        arrowDrawable.expandShadowAndArrowPadding(paddingRect);
-        contentView.setPaddingRelative(paddingRect.left, paddingRect.top, paddingRect.right, paddingRect.bottom);
+        arrowDrawable.expandShadowAndArrowPadding(contentView);
     }
 
     /**

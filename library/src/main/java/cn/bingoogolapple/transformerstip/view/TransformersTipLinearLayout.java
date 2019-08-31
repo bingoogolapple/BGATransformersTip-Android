@@ -19,6 +19,9 @@ public class TransformersTipLinearLayout extends LinearLayout {
 
     public TransformersTipLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setBackground(new ArrowDrawable(context, attrs));
+        ArrowDrawable arrowDrawable = new ArrowDrawable(context, attrs);
+        arrowDrawable.expandShadowAndArrowPadding(this);
+        setBackground(arrowDrawable);
+
     }
 }
