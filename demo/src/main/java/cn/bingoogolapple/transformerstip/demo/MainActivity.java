@@ -1,6 +1,7 @@
 package cn.bingoogolapple.transformerstip.demo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -47,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
                 // 在 Java 代码中设置浮窗背景以及箭头位置
                 new ArrowDrawable(contentView)
                         .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
-                        .setBgColorRes(R.color.colorPrimaryDarkTrans) // 设置背景色
+                        .setBgColor(Color.WHITE) // 设置背景色
+                        .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
                         .setArrowHeightDp(6) // 设置箭头高度
                         .setRadiusDp(4) // 设置浮窗圆角半径
                         .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
-                        .setArrowOffsetYDp(0); // 设置箭头在 y 轴的偏移量
+                        .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
+                        .setShadowSizeDp(6); // 设置阴影宽度
             }
 
             @Override
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }.setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
                 .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
-                .setTipOffsetYDp(0) // 设置浮窗在 y 轴的偏移量
+                .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
                 .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
                 .show(); // 显示浮窗
     }
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }.setTipGravity(TipGravity.TO_BOTTOM_CENTER) // 设置浮窗相对于锚点控件展示的位置
                 .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
-                .setTipOffsetYDp(0) // 设置浮窗在 y 轴的偏移量
+                .setTipOffsetYDp(-6) // 设置浮窗在 y 轴的偏移量
                 .setBackgroundDimEnabled(true) // 设置是否允许浮窗的背景变暗
                 .show(); // 显示浮窗
     }

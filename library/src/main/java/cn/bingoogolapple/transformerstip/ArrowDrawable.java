@@ -2,6 +2,7 @@ package cn.bingoogolapple.transformerstip;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -39,6 +40,9 @@ public class ArrowDrawable extends Drawable {
     private int mArrowGravity;
     private int mArrowOffsetX;
     private int mArrowOffsetY;
+    private int mShadowSize;
+    private int mBgColor;
+    private int mShadowColor;
 
     /**
      * 在 Java 代码中设置浮窗背景
@@ -63,10 +67,12 @@ public class ArrowDrawable extends Drawable {
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.parseColor("#99000000"));
 
+        mBgColor = Color.BLACK;
+        mShadowColor = Color.parseColor("#33000000");
         mArrowHeight = dp2px(context, 6);
         mRadius = dp2px(context, 4);
+        mShadowSize = 0;
         mArrowOffsetX = 0;
         mArrowOffsetY = 0;
         mArrowGravity = ArrowGravity.TO_BOTTOM_CENTER;
@@ -82,10 +88,12 @@ public class ArrowDrawable extends Drawable {
     }
 
     private void initCustomAttr(int attr, TypedArray typedArray) {
-        if (attr == R.styleable.ArrowDrawable_ad_background) {
-            mPaint.setColor(typedArray.getColor(attr, Color.BLACK));
+        if (attr == R.styleable.ArrowDrawable_ad_bgColor) {
+            mBgColor = typedArray.getColor(attr, Color.BLACK);
         } else if (attr == R.styleable.ArrowDrawable_ad_arrowHeight) {
             mArrowHeight = typedArray.getDimensionPixelSize(attr, mArrowHeight);
+        } else if (attr == R.styleable.ArrowDrawable_ad_shadowSize) {
+            mShadowSize = typedArray.getDimensionPixelSize(attr, mShadowSize);
         } else if (attr == R.styleable.ArrowDrawable_ad_radius) {
             mRadius = typedArray.getDimensionPixelSize(attr, mRadius);
         } else if (attr == R.styleable.ArrowDrawable_ad_arrowExtraOffsetX) {
@@ -101,7 +109,7 @@ public class ArrowDrawable extends Drawable {
      * 设置背景色
      */
     public ArrowDrawable setBgColor(int bgColor) {
-        mPaint.setColor(bgColor);
+        mBgColor = bgColor;
         return this;
     }
 
@@ -109,7 +117,23 @@ public class ArrowDrawable extends Drawable {
      * 设置背景色
      */
     public ArrowDrawable setBgColorRes(@ColorRes int bgColorRes) {
-        mPaint.setColor(mContext.getResources().getColor(bgColorRes));
+        mBgColor = mContext.getResources().getColor(bgColorRes);
+        return this;
+    }
+
+    /**
+     * 设置阴影色
+     */
+    public ArrowDrawable setShadowColor(int shadowColor) {
+        mShadowColor = shadowColor;
+        return this;
+    }
+
+    /**
+     * 设置阴影色
+     */
+    public ArrowDrawable setShadowColorRes(@ColorRes int shadowColorRes) {
+        mShadowColor = mContext.getResources().getColor(shadowColorRes);
         return this;
     }
 
@@ -185,9 +209,32 @@ public class ArrowDrawable extends Drawable {
         return this;
     }
 
+    /**
+     * 设置阴影宽度
+     */
+    public ArrowDrawable setShadowSizeDp(int shadowSize) {
+        mShadowSize = shadowSize;
+        return this;
+    }
+
+    /**
+     * 设置阴影宽度
+     */
+    public ArrowDrawable setShadowSizeRes(@DimenRes int resId) {
+        mShadowSize = mContext.getResources().getDimensionPixelOffset(resId);
+        return this;
+    }
+
     @Override
     public void draw(@NonNull Canvas canvas) {
         if (mPath != null) {
+            if (mShadowSize > 0) {
+                mPaint.setMaskFilter(new BlurMaskFilter(mShadowSize, BlurMaskFilter.Blur.OUTER));
+                mPaint.setColor(mShadowColor);
+                canvas.drawPath(mPath, mPaint);
+            }
+            mPaint.setMaskFilter(null);
+            mPaint.setColor(mBgColor);
             canvas.drawPath(mPath, mPaint);
         }
     }
@@ -208,76 +255,71 @@ public class ArrowDrawable extends Drawable {
     }
 
     @Override
-    protected void onBoundsChange(Rect bounds) {
+    protected void onBoundsChange(Rect viewRect) {
         if (mPath == null) {
             mPath = new Path();
         } else {
             mPath.reset();
         }
 
-        RectF bgRectF = new RectF(bounds);
+        RectF excludeShadowRectF = new RectF(viewRect);
+        excludeShadowRectF.inset(mShadowSize, mShadowSize);
 
         PointF centerPointF = new PointF();
-        if (isExist(mArrowGravity, VerticalGravity.TO_TOP)) {
-            bgRectF.top += mArrowHeight;
-            centerPointF.y = bgRectF.top;
-        } else if (isExist(mArrowGravity, VerticalGravity.ALIGN_TOP)) {
-            centerPointF.y = bgRectF.top + mArrowHeight;
-        } else if (isExist(mArrowGravity, VerticalGravity.CENTER)) {
-            centerPointF.y = bgRectF.height() / 2;
-        } else if (isExist(mArrowGravity, VerticalGravity.ALIGN_BOTTOM)) {
-            centerPointF.y = bgRectF.bottom - mArrowHeight;
-        } else if (isExist(mArrowGravity, VerticalGravity.TO_BOTTOM)) {
-            bgRectF.bottom -= mArrowHeight;
-            centerPointF.y = bgRectF.bottom;
+        // 箭头（旋转了 90 度后的正方形区域）中心 x 坐标
+        if (isExist(HorizontalGravity.TO_START)) {
+            excludeShadowRectF.left += mArrowHeight;
+            centerPointF.x = excludeShadowRectF.left;
+        } else if (isExist(HorizontalGravity.ALIGN_START)) {
+            centerPointF.x = excludeShadowRectF.left + mArrowHeight;
+        } else if (isExist(HorizontalGravity.CENTER)) {
+            centerPointF.x = excludeShadowRectF.width() / 2;
+        } else if (isExist(HorizontalGravity.ALIGN_END)) {
+            centerPointF.x = excludeShadowRectF.right - mArrowHeight;
+        } else if (isExist(HorizontalGravity.TO_END)) {
+            excludeShadowRectF.right -= mArrowHeight;
+            centerPointF.x = excludeShadowRectF.right;
         }
 
-        if (isExist(mArrowGravity, HorizontalGravity.TO_START)) {
-            bgRectF.left += mArrowHeight;
-            centerPointF.x = bgRectF.left;
-        } else if (isExist(mArrowGravity, HorizontalGravity.ALIGN_START)) {
-            centerPointF.x = bgRectF.left + mArrowHeight;
-        } else if (isExist(mArrowGravity, HorizontalGravity.CENTER)) {
-            centerPointF.x = bgRectF.width() / 2;
-        } else if (isExist(mArrowGravity, HorizontalGravity.ALIGN_END)) {
-            centerPointF.x = bgRectF.right - mArrowHeight;
-        } else if (isExist(mArrowGravity, HorizontalGravity.TO_END)) {
-            bgRectF.right -= mArrowHeight;
-            centerPointF.x = bgRectF.right;
+        // 箭头（旋转了 90 度后的正方形区域）中心 y 坐标
+        if (isExist(VerticalGravity.TO_TOP)) {
+            excludeShadowRectF.top += mArrowHeight;
+            centerPointF.y = excludeShadowRectF.top;
+        } else if (isExist(VerticalGravity.ALIGN_TOP)) {
+            centerPointF.y = excludeShadowRectF.top + mArrowHeight;
+        } else if (isExist(VerticalGravity.CENTER)) {
+            centerPointF.y = excludeShadowRectF.height() / 2;
+        } else if (isExist(VerticalGravity.ALIGN_BOTTOM)) {
+            centerPointF.y = excludeShadowRectF.bottom - mArrowHeight;
+        } else if (isExist(VerticalGravity.TO_BOTTOM)) {
+            excludeShadowRectF.bottom -= mArrowHeight;
+            centerPointF.y = excludeShadowRectF.bottom;
         }
 
-        if (centerPointF.y + mArrowOffsetY + mArrowHeight > bounds.bottom) {
-            centerPointF.y = bounds.bottom - mArrowHeight;
-        } else if (centerPointF.y + mArrowOffsetY - mArrowHeight < bounds.top) {
-            centerPointF.y = bounds.top + mArrowHeight;
-        } else {
-            centerPointF.y += mArrowOffsetY;
+        // 更新箭头偏移量
+        centerPointF.x += mArrowOffsetX;
+        centerPointF.y += mArrowOffsetY;
+
+        // 限制箭头（旋转了 90 度后的正方形区域）中心 x 坐标范围
+        if (isExist(HorizontalGravity.ALIGN_START) || isExist(HorizontalGravity.CENTER) || isExist(HorizontalGravity.ALIGN_END)) {
+            centerPointF.x = Math.max(centerPointF.x, excludeShadowRectF.left + mRadius + mArrowHeight);
+            centerPointF.x = Math.min(centerPointF.x, excludeShadowRectF.right - mRadius - mArrowHeight);
+        }
+        if (isExist(HorizontalGravity.TO_START) || isExist(HorizontalGravity.TO_END)) {
+            centerPointF.x = Math.max(centerPointF.x, excludeShadowRectF.left);
+            centerPointF.x = Math.min(centerPointF.x, excludeShadowRectF.right);
+        }
+        // 限制箭头（旋转了 90 度后的正方形区域）中心 y 坐标范围
+        if (isExist(VerticalGravity.ALIGN_TOP) || isExist(VerticalGravity.CENTER) || isExist(VerticalGravity.ALIGN_BOTTOM)) {
+            centerPointF.y = Math.max(centerPointF.y, excludeShadowRectF.top + mRadius + mArrowHeight);
+            centerPointF.y = Math.min(centerPointF.y, excludeShadowRectF.bottom - mRadius - mArrowHeight);
+        }
+        if (isExist(VerticalGravity.TO_TOP) || isExist(VerticalGravity.TO_BOTTOM)) {
+            centerPointF.y = Math.max(centerPointF.y, excludeShadowRectF.top);
+            centerPointF.y = Math.min(centerPointF.y, excludeShadowRectF.bottom);
         }
 
-        if (centerPointF.x + mArrowOffsetX + mArrowHeight > bounds.right) {
-            centerPointF.x = bounds.right - mArrowHeight;
-        } else if (centerPointF.x + mArrowOffsetX - mArrowHeight < bounds.left) {
-            centerPointF.x = bounds.left + mArrowHeight;
-        } else {
-            centerPointF.x += mArrowOffsetX;
-        }
-
-        if (mRadius > 0) {
-            if (isExist(mArrowGravity, HorizontalGravity.ALIGN_START)) {
-                centerPointF.x = Math.max(centerPointF.x, mRadius + mArrowHeight);
-            }
-            if (isExist(mArrowGravity, HorizontalGravity.ALIGN_END)) {
-                centerPointF.x = Math.min(centerPointF.x, bounds.right - mRadius - mArrowHeight);
-            }
-
-            if (isExist(mArrowGravity, VerticalGravity.ALIGN_TOP)) {
-                centerPointF.y = Math.max(centerPointF.y, mRadius + mArrowHeight);
-            }
-            if (isExist(mArrowGravity, VerticalGravity.ALIGN_BOTTOM)) {
-                centerPointF.y = Math.min(centerPointF.y, bounds.bottom - mRadius - mArrowHeight);
-            }
-        }
-
+        // 箭头区域（其实是旋转了 90 度后的正方形区域）
         Path arrowPath = new Path();
         arrowPath.moveTo(centerPointF.x - mArrowHeight, centerPointF.y);
         arrowPath.lineTo(centerPointF.x, centerPointF.y - mArrowHeight);
@@ -285,14 +327,31 @@ public class ArrowDrawable extends Drawable {
         arrowPath.lineTo(centerPointF.x, centerPointF.y + mArrowHeight);
         arrowPath.close();
 
-        mPath.addRoundRect(bgRectF, mRadius, mRadius, Path.Direction.CW);
+        mPath.addRoundRect(excludeShadowRectF, mRadius, mRadius, Path.Direction.CW);
         mPath.addPath(arrowPath);
 
         invalidateSelf();
     }
 
-    private boolean isExist(@ArrowGravity int arrowGravity, int directionGravity) {
-        return (arrowGravity & directionGravity) == directionGravity;
+    void expandShadowAndArrowPadding(Rect rect) {
+        rect.left += mShadowSize;
+        rect.top += mShadowSize;
+        rect.right += mShadowSize;
+        rect.bottom += mShadowSize;
+
+        if (isExist(HorizontalGravity.TO_START)) {
+            rect.left += mArrowHeight;
+        } else if (isExist(VerticalGravity.TO_TOP)) {
+            rect.top += mArrowHeight;
+        } else if (isExist(HorizontalGravity.TO_END)) {
+            rect.right += mArrowHeight;
+        } else if (isExist(VerticalGravity.TO_BOTTOM)) {
+            rect.bottom += mArrowHeight;
+        }
+    }
+
+    private boolean isExist(int directionGravity) {
+        return (mArrowGravity & directionGravity) == directionGravity;
     }
 
     private static int dp2px(Context context, float dpValue) {

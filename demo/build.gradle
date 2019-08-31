@@ -25,7 +25,7 @@ android {
 dependencies {
 //    implementation project(':library')
 
-    implementation 'cn.bingoogolapple:bga-transformerstip:1.0.1@aar'
+    implementation 'cn.bingoogolapple:bga-transformerstip:1.0.2@aar'
 
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 }

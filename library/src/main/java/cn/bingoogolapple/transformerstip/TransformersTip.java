@@ -3,7 +3,9 @@ package cn.bingoogolapple.transformerstip;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,8 +47,10 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         mTipOffsetY = 0;
 
         View contentView = LayoutInflater.from(anchorView.getContext()).inflate(layoutResId, null);
+        contentView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setContentView(contentView);
         initBackground(contentView);
+        initPaddingBackgroundDrawable(contentView);
         initView(contentView);
         contentView.measure(makeDropDownMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT), makeDropDownMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT));
         initDefaultAttributes();
@@ -157,6 +161,22 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         handleOnDismiss();
     }
 
+    private void initPaddingBackgroundDrawable(View contentView) {
+        Drawable background = contentView.getBackground();
+        if (!(background instanceof ArrowDrawable)) {
+            return;
+        }
+
+        ArrowDrawable arrowDrawable = (ArrowDrawable) background;
+        Rect paddingRect = new Rect();
+        paddingRect.left = contentView.getPaddingStart();
+        paddingRect.top = contentView.getPaddingTop();
+        paddingRect.right = contentView.getPaddingEnd();
+        paddingRect.bottom = contentView.getPaddingBottom();
+        arrowDrawable.expandShadowAndArrowPadding(paddingRect);
+        contentView.setPaddingRelative(paddingRect.left, paddingRect.top, paddingRect.right, paddingRect.bottom);
+    }
+
     /**
      * 初始化默认属性
      */
@@ -209,28 +229,32 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         Point point = new Point();
         mAnchorView.getDisplay().getSize(point);
         // 获取锚点控件在屏幕上的位置
-        int[] xy = new int[2];
-        mAnchorView.getLocationInWindow(xy);
+        int[] anchorXy = new int[2];
+        mAnchorView.getLocationInWindow(anchorXy);
 
         // x 轴方向起始点
-        int startX = xy[0];
+        int startX = anchorXy[0];
         if (gravity == Gravity.END) {
-            startX = xy[0] + mAnchorView.getWidth();
+            startX = anchorXy[0] + mAnchorView.getWidth();
         }
         // x 轴坐标
         int xoff = offsetX + mTipOffsetX;
         if (startX + xoff + getContentView().getMeasuredWidth() > point.x) {
             // x 轴方向展示到屏幕外了，修正到屏幕内
             xoff = point.x - getContentView().getMeasuredWidth() - startX;
+        } else if (startX + xoff < 0) {
+            xoff = 0;
         }
 
         // y 轴方向起始点
-        int startY = xy[1] + mAnchorView.getHeight();
+        int startY = anchorXy[1] + mAnchorView.getHeight();
         // y 轴坐标
         int yoff = offsetY + mTipOffsetY;
         if (startY + yoff + getContentView().getMeasuredHeight() > point.y) {
             // y 轴方向展示到屏幕外了，修正到屏幕内
             yoff = point.y - getContentView().getMeasuredHeight() - startY;
+        } else if (startY + yoff < 0) {
+            yoff = -startY;
         }
 
         PopupWindowCompat.showAsDropDown(this, mAnchorView, xoff, yoff, gravity);

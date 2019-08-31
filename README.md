@@ -1,11 +1,23 @@
 :running:BGATransformersTip-Android:running:
 ============
 
-Android 通用 PopupWindow，支持从锚点控件的各个位置弹出浮窗，可以配置箭头指示器展示到浮窗边缘的任意位置
+Android 通用 PopupWindow，再也不用找 UI 小姐姐切 .9 图片了，大致能为你节省 30 分钟的开发时间
+
+## 功能介绍
+
+- [x] 支持配置浮窗展示在锚点控件的任意位置
+- [x] 支持配置指示箭头（是否展示、展示在浮窗的任意位置、高度、圆角、颜色）
+- [x] 支持配置浮窗背景色
+- [x] 支持配置浮窗边框阴影（是否展示、宽度、颜色）
+- [x] 支持配置浮窗以外的其他区域是否变暗
+- [x] 浮窗超出屏幕区域后会自动移动浮窗到屏幕区域内
 
 ## 效果图
 
-![image](https://user-images.githubusercontent.com/8949716/63393442-b56d1080-c3ed-11e9-86bc-7ee4df4d2756.png)
+| ![1](https://user-images.githubusercontent.com/8949716/64065983-38406780-cc47-11e9-8971-5fa730206fe5.png) | ![2](https://user-images.githubusercontent.com/8949716/64066122-cc5efe80-cc48-11e9-9eba-479df9c78962.png) |
+| ------------ | ------------- |
+| ![3](https://user-images.githubusercontent.com/8949716/64065997-645be880-cc47-11e9-8b4a-6f5d179ec6be.png) | ![4](https://user-images.githubusercontent.com/8949716/64066135-e7317300-cc48-11e9-8e8b-38458d4ed3ba.png) |
+ 
 ![效果图](https://user-images.githubusercontent.com/8949716/63364704-b4fe5680-c3a8-11e9-9185-872fc1671430.png)
 
 ## 使用说明
@@ -27,30 +39,26 @@ dependencies {
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="16dp"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:background="@color/colorPrimaryDarkTrans"
-    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/tv_tip_content"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="这里 paddingBottom 比其他 padding 多了 6pd 是为了留空间给三角箭头"
-        android:textColor="@android:color/white" />
+        android:layout_margin="10dp"
+        android:text="B -> bingo\nG googol\nA -> apple\nBGA -> bingoogolapple"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/tv_tip_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
         android:layout_gravity="top"
         android:padding="4dp"
-        android:text="X"
-        android:textColor="@android:color/white" />
+        android:text="x"
+        android:textColor="@android:color/black" />
 </LinearLayout>
 ```
 * 在 Java 代码中设置浮窗位置、浮窗背景、箭头位置
@@ -61,11 +69,13 @@ new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
         // 在 Java 代码中设置浮窗背景以及箭头位置
         new ArrowDrawable(contentView)
                 .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
-                .setBgColorRes(R.color.colorPrimaryDarkTrans) // 设置背景色
-                .setArrowHeightDp(6) // 设置箭头高度
+                .setBgColor(Color.WHITE) // 设置背景色
+                .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
+                .setArrowHeightDp(6) // 设置箭头高度，为 0 是没有箭头
                 .setRadiusDp(4) // 设置浮窗圆角半径
                 .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
-                .setArrowOffsetYDp(0); // 设置箭头在 y 轴的偏移量
+                .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
+                .setShadowSizeDp(6); // 设置阴影宽度，为 0 时没有阴影
     }
 
     @Override
@@ -80,7 +90,7 @@ new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
     }
 }.setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
         .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
-        .setTipOffsetYDp(0) // 设置浮窗在 y 轴的偏移量
+        .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
         .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
         .show(); // 显示浮窗
 ```
@@ -94,34 +104,34 @@ new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
-    android:paddingBottom="10dp"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     app:ad_arrowExtraOffsetX="0dp"
     app:ad_arrowExtraOffsetY="0dp"
     app:ad_arrowGravity="to_top_center"
     app:ad_arrowHeight="6dp"
-    app:ad_background="@color/colorPrimaryDarkTrans"
-    app:ad_radius="4dp">
+    app:ad_bgColor="@android:color/black"
+    app:ad_radius="4dp"
+    app:ad_shadowColor="#33000000"
+    app:ad_shadowSize="6dp">
 
     <TextView
         android:id="@+id/tv_tip_content"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="这里 paddingTop 比其他 padding 多了 6pd 是为了留空间给三角箭头"
+        android:layout_margin="10dp"
+        android:text="B -> bingo\nG googol\nA -> apple\nBGA -> bingoogolapple"
         android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/tv_tip_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
         android:layout_gravity="top"
         android:padding="4dp"
-        android:text="X"
+        android:text="x"
         android:textColor="@android:color/white" />
 </cn.bingoogolapple.transformerstip.view.TransformersTipLinearLayout>
 ```
@@ -140,8 +150,8 @@ new TransformersTip(anchorView, R.layout.layout_demo2_tip) {
     }
 }.setTipGravity(TipGravity.TO_BOTTOM_CENTER) // 设置浮窗相对于锚点控件展示的位置
         .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
-        .setTipOffsetYDp(0) // 设置浮窗在 y 轴的偏移量
-        .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
+        .setTipOffsetYDp(-6) // 设置浮窗在 y 轴的偏移量
+        .setBackgroundDimEnabled(true) // 设置是否允许浮窗的背景变暗
         .show(); // 显示浮窗
 ```
 
@@ -159,10 +169,14 @@ new TransformersTip(anchorView, R.layout.layout_demo2_tip) {
 ## TransformersTipLinearLayout 和 TransformersTipRelativeLayout 自定义属性说明
 ```xml
 <declare-styleable name="ArrowDrawable">
-    <!-- 背景 -->
-    <attr format="reference|color" name="ad_background" />
+    <!-- 背景色 -->
+    <attr format="reference|color" name="ad_bgColor" />
+    <!-- 阴影色 -->
+    <attr format="reference|color" name="ad_shadowColor" />
     <!-- 箭头高度 -->
     <attr format="dimension" name="ad_arrowHeight" />
+    <!-- 阴影宽度 -->
+    <attr format="dimension" name="ad_shadowSize" />
     <!-- 浮窗圆角半径 -->
     <attr format="dimension" name="ad_radius" />
     <!-- 箭头在 x 轴的偏移量 -->

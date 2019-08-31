@@ -2,10 +2,14 @@
 <resources>
 
     <declare-styleable name="ArrowDrawable">
-        <!-- 背景 -->
-        <attr format="reference|color" name="ad_background" />
+        <!-- 背景色 -->
+        <attr format="reference|color" name="ad_bgColor" />
+        <!-- 阴影色 -->
+        <attr format="reference|color" name="ad_shadowColor" />
         <!-- 箭头高度 -->
         <attr format="dimension" name="ad_arrowHeight" />
+        <!-- 阴影宽度 -->
+        <attr format="dimension" name="ad_shadowSize" />
         <!-- 浮窗圆角半径 -->
         <attr format="dimension" name="ad_radius" />
         <!-- 箭头在 x 轴的偏移量 -->
