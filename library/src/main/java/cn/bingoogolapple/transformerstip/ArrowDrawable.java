@@ -17,8 +17,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import androidx.annotation.ColorRes;
-import androidx.annotation.DimenRes;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import cn.bingoogolapple.transformerstip.gravity.ArrowGravity;
@@ -31,7 +30,6 @@ import cn.bingoogolapple.transformerstip.gravity.VerticalGravity;
  * 描述:
  */
 public class ArrowDrawable extends Drawable {
-    private Context mContext;
     private Path mPath;
     private Paint mPaint;
 
@@ -64,8 +62,6 @@ public class ArrowDrawable extends Drawable {
     }
 
     private void initDefaultAttrs(Context context) {
-        mContext = context;
-
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setAntiAlias(true);
 
@@ -111,71 +107,39 @@ public class ArrowDrawable extends Drawable {
     /**
      * 设置背景色
      */
-    public ArrowDrawable setBgColor(int bgColor) {
+    ArrowDrawable setBgColor(@ColorInt int bgColor) {
         mBgColor = bgColor;
         return this;
     }
 
     /**
-     * 设置背景色
-     */
-    public ArrowDrawable setBgColorRes(@ColorRes int bgColorRes) {
-        mBgColor = mContext.getResources().getColor(bgColorRes);
-        return this;
-    }
-
-    /**
      * 设置阴影色
      */
-    public ArrowDrawable setShadowColor(int shadowColor) {
+    ArrowDrawable setShadowColor(@ColorInt int shadowColor) {
         mShadowColor = shadowColor;
         return this;
     }
 
     /**
-     * 设置阴影色
-     */
-    public ArrowDrawable setShadowColorRes(@ColorRes int shadowColorRes) {
-        mShadowColor = mContext.getResources().getColor(shadowColorRes);
-        return this;
-    }
-
-    /**
      * 设置箭头高度
      */
-    public ArrowDrawable setArrowHeightDp(int arrowHeight) {
-        mArrowHeight = dp2px(mContext, arrowHeight);
-        return this;
-    }
-
-    /**
-     * 设置箭头高度
-     */
-    public ArrowDrawable setArrowHeightRes(@DimenRes int resId) {
-        mArrowHeight = mContext.getResources().getDimensionPixelOffset(resId);
+    ArrowDrawable setArrowHeightPx(int arrowHeight) {
+        mArrowHeight = arrowHeight;
         return this;
     }
 
     /**
      * 设置浮窗圆角半径
      */
-    public ArrowDrawable setRadiusDp(int radius) {
-        mRadius = dp2px(mContext, radius);
-        return this;
-    }
-
-    /**
-     * 设置浮窗圆角半径
-     */
-    public ArrowDrawable setRadiusRes(@DimenRes int resId) {
-        mRadius = mContext.getResources().getDimensionPixelOffset(resId);
+    ArrowDrawable setRadiusPx(int radius) {
+        mRadius = radius;
         return this;
     }
 
     /**
      * 设置箭头相对于浮窗的位置
      */
-    public ArrowDrawable setArrowGravity(@ArrowGravity int arrowGravity) {
+    ArrowDrawable setArrowGravity(@ArrowGravity int arrowGravity) {
         mArrowGravity = arrowGravity;
         return this;
     }
@@ -183,48 +147,24 @@ public class ArrowDrawable extends Drawable {
     /**
      * 设置箭头在 x 轴的偏移量
      */
-    public ArrowDrawable setArrowOffsetXDp(int arrowOffsetX) {
-        mArrowOffsetX = dp2px(mContext, arrowOffsetX);
-        return this;
-    }
-
-    /**
-     * 设置箭头在 x 轴的偏移量
-     */
-    public ArrowDrawable setArrowOffsetXRes(@DimenRes int resId) {
-        mArrowOffsetX = mContext.getResources().getDimensionPixelOffset(resId);
+    ArrowDrawable setArrowOffsetXPx(int arrowOffsetX) {
+        mArrowOffsetX = arrowOffsetX;
         return this;
     }
 
     /**
      * 设置箭头在 y 轴的偏移量
      */
-    public ArrowDrawable setArrowOffsetYDp(int arrowOffsetX) {
-        mArrowOffsetY = dp2px(mContext, arrowOffsetX);
-        return this;
-    }
-
-    /**
-     * 设置箭头在 y 轴的偏移量
-     */
-    public ArrowDrawable setArrowOffsetYRes(@DimenRes int resId) {
-        mArrowOffsetY = mContext.getResources().getDimensionPixelOffset(resId);
+    ArrowDrawable setArrowOffsetYPx(int arrowOffsetY) {
+        mArrowOffsetY = arrowOffsetY;
         return this;
     }
 
     /**
      * 设置阴影宽度
      */
-    public ArrowDrawable setShadowSizeDp(int shadowSize) {
+    ArrowDrawable setShadowSizePx(int shadowSize) {
         mShadowSize = shadowSize;
-        return this;
-    }
-
-    /**
-     * 设置阴影宽度
-     */
-    public ArrowDrawable setShadowSizeRes(@DimenRes int resId) {
-        mShadowSize = mContext.getResources().getDimensionPixelOffset(resId);
         return this;
     }
 
@@ -365,7 +305,7 @@ public class ArrowDrawable extends Drawable {
         return (mArrowGravity & directionGravity) == directionGravity;
     }
 
-    private static int dp2px(Context context, float dpValue) {
+    static int dp2px(Context context, float dpValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.getResources().getDisplayMetrics());
     }
 }

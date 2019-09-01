@@ -15,7 +15,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import cn.bingoogolapple.transformerstip.ArrowDrawable;
 import cn.bingoogolapple.transformerstip.TransformersTip;
 import cn.bingoogolapple.transformerstip.gravity.ArrowGravity;
 import cn.bingoogolapple.transformerstip.gravity.TipGravity;
@@ -72,18 +71,6 @@ public class TestActivity extends AppCompatActivity {
                 private RecyclerView mTipContentRv;
 
                 @Override
-                protected void initBackground(View contentView) {
-                    // 在 Java 代码中设置浮窗背景以及箭头位置
-                    new ArrowDrawable(contentView)
-                            .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
-                            .setBgColorRes(R.color.colorPrimaryDarkTrans) // 设置背景色
-                            .setArrowHeightDp(6) // 设置箭头高度
-                            .setRadiusDp(4) // 设置浮窗圆角半径
-                            .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
-                            .setArrowOffsetYDp(0); // 设置箭头在 y 轴的偏移量
-                }
-
-                @Override
                 protected void initView(View contentView) {
                     mTipContentTv = contentView.findViewById(R.id.tv_tip_content);
                     mTipContentTv.setText("修改后的标题");
@@ -108,7 +95,15 @@ public class TestActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }.setTipGravity(tipGravity) // 设置浮窗相对于锚点控件展示的位置
+            }
+                    .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
+                    .setBgColorRes(R.color.colorPrimaryDarkTrans) // 设置背景色
+                    .setArrowHeightDp(6) // 设置箭头高度
+                    .setRadiusDp(4) // 设置浮窗圆角半径
+                    .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
+                    .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
+
+                    .setTipGravity(tipGravity) // 设置浮窗相对于锚点控件展示的位置
                     .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
                     .setTipOffsetYDp(0) // 设置浮窗在 y 轴的偏移量
                     .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗

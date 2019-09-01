@@ -11,6 +11,7 @@ Android 通用 PopupWindow，再也不用找 UI 小姐姐切 .9 图片了，大�
 - [x] 支持配置浮窗边框阴影（是否展示、宽度、颜色）
 - [x] 支持配置浮窗以外的其他区域是否变暗
 - [x] 浮窗超出屏幕区域后会自动移动浮窗到屏幕区域内
+- [x] 对于只有文字的浮窗，直接使用 SimpleTextTip，不用写布局文件
 
 ## 效果图
 
@@ -132,20 +133,6 @@ new TransformersTip(anchorView, R.layout.layout_demo2_tip) {
 ```Java
 new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
     @Override
-    protected void initBackground(View contentView) {
-        // 在 Java 代码中设置浮窗背景以及箭头位置
-        new ArrowDrawable(contentView)
-                .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
-                .setBgColor(Color.WHITE) // 设置背景色
-                .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
-                .setArrowHeightDp(6) // 设置箭头高度，为 0 是没有箭头
-                .setRadiusDp(4) // 设置浮窗圆角半径
-                .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
-                .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
-                .setShadowSizeDp(6); // 设置阴影宽度，为 0 时没有阴影
-    }
-
-    @Override
     protected void initView(View contentView) {
         // 点击浮窗中自定按钮关闭浮窗
         contentView.findViewById(R.id.tv_tip_close).setOnClickListener(new View.OnClickListener() {
@@ -155,10 +142,47 @@ new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
             }
         });
     }
-}.setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
+}
+        .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
+        .setBgColor(Color.WHITE) // 设置背景色
+        .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
+        .setArrowHeightDp(6) // 设置箭头高度
+        .setRadiusDp(4) // 设置浮窗圆角半径
+        .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
+        .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
+        .setShadowSizeDp(6) // 设置阴影宽度
+
+        .setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
         .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
         .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
         .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
+
+        .show(); // 显示浮窗
+```
+
+### 方式三：对于仅有文字的浮窗，可以直接使用 SimpleTextTip，不用再写布局文件了
+
+```java
+new SimpleTextTip(anchorView)
+        .setTextContent("适用于只有文字的浮窗\n不写布局文件\n在 Java 代码中设置文本内容属性") // 设置浮窗文本内容
+        .setTextPaddingDp(12) // 设置文字与浮窗边框的间距
+        .setTextColor(Color.BLACK) // 设置文字颜色
+        .setTextSizeSp(14) // 设置文字大小
+
+        .setArrowGravity(ArrowGravity.TO_BOTTOM_ALIGN_START) // 设置箭头相对于浮窗的位置
+        .setBgColor(Color.WHITE) // 设置背景色
+        .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
+        .setArrowHeightDp(6) // 设置箭头高度
+        .setRadiusDp(4) // 设置浮窗圆角半径
+        .setArrowOffsetXDp(0) // 设置箭头在 x 轴的偏移量
+        .setArrowOffsetYDp(0) // 设置箭头在 y 轴的偏移量
+        .setShadowSizeDp(6) // 设置阴影宽度
+
+        .setTipGravity(TipGravity.TO_TOP_ALIGN_START) // 设置浮窗相对于锚点控件展示的位置
+        .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
+        .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
+        .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
+
         .show(); // 显示浮窗
 ```
 

@@ -13,9 +13,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
 import androidx.annotation.LayoutRes;
 import androidx.core.widget.PopupWindowCompat;
+import cn.bingoogolapple.transformerstip.gravity.ArrowGravity;
 import cn.bingoogolapple.transformerstip.gravity.HorizontalGravity;
 import cn.bingoogolapple.transformerstip.gravity.TipGravity;
 import cn.bingoogolapple.transformerstip.gravity.VerticalGravity;
@@ -31,6 +33,30 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
     private int mTipOffsetX; // 浮窗在 x 轴的偏移量
     private int mTipOffsetY; // 浮窗在 y 轴的偏移量
     private boolean mBackgroundDimEnabled = false; // 是否允许浮窗的背景变暗
+    private ArrowDrawable mArrowDrawable;
+
+    /**
+     * 锚点控件
+     *
+     * @param anchorView  锚点控件
+     * @param contentView 浮窗内容视图
+     */
+    public TransformersTip(View anchorView, View contentView) {
+        super(anchorView.getContext());
+        mAnchorView = anchorView;
+
+        Drawable backgroundDrawable = contentView.getBackground();
+        if (backgroundDrawable instanceof ArrowDrawable) {
+            mArrowDrawable = (ArrowDrawable) backgroundDrawable;
+        } else {
+            mArrowDrawable = new ArrowDrawable(contentView);
+        }
+        contentView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        setContentView(contentView);
+        initView(contentView);
+        initDefaultAttributes();
+        customAttributes();
+    }
 
     /**
      * 锚点控件
@@ -39,30 +65,10 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
      * @param layoutResId 浮窗布局资源 id
      */
     public TransformersTip(View anchorView, @LayoutRes int layoutResId) {
-        super(anchorView.getContext());
-        mAnchorView = anchorView;
-        mTipGravity = TipGravity.TO_TOP_CENTER;
-        mTipOffsetX = 0;
-        mTipOffsetY = 0;
-
-        View contentView = LayoutInflater.from(anchorView.getContext()).inflate(layoutResId, null);
-        contentView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        setContentView(contentView);
-        initBackground(contentView);
-        initPaddingBackgroundDrawable(contentView);
-        initView(contentView);
-        contentView.measure(makeDropDownMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT), makeDropDownMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT));
-        initDefaultAttributes();
-        customAttributes();
+        this(anchorView, LayoutInflater.from(anchorView.getContext()).inflate(layoutResId, null));
     }
 
     // ================ 复写 START ================
-
-    /**
-     * 初始化浮窗背景
-     */
-    protected void initBackground(View contentView) {
-    }
 
     /**
      * 初始化控件
@@ -86,6 +92,126 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
     // ================ 对外暴露 START ================
 
     /**
+     * 设置背景色
+     */
+    public TransformersTip setBgColor(int value) {
+        mArrowDrawable.setBgColor(value);
+        return this;
+    }
+
+    /**
+     * 设置背景色
+     */
+    public TransformersTip setBgColorRes(@ColorRes int resId) {
+        mArrowDrawable.setBgColor(getContentView().getResources().getColor(resId));
+        return this;
+    }
+
+    /**
+     * 设置阴影色
+     */
+    public TransformersTip setShadowColor(int value) {
+        mArrowDrawable.setShadowColor(value);
+        return this;
+    }
+
+    /**
+     * 设置阴影色
+     */
+    public TransformersTip setShadowColorRes(@ColorRes int resId) {
+        mArrowDrawable.setShadowColor(getContentView().getResources().getColor(resId));
+        return this;
+    }
+
+    /**
+     * 设置箭头高度
+     */
+    public TransformersTip setArrowHeightDp(int value) {
+        mArrowDrawable.setArrowHeightPx(ArrowDrawable.dp2px(getContentView().getContext(), value));
+        return this;
+    }
+
+    /**
+     * 设置箭头高度
+     */
+    public TransformersTip setArrowHeightRes(@DimenRes int resId) {
+        mArrowDrawable.setArrowHeightPx(getContentView().getResources().getDimensionPixelOffset(resId));
+        return this;
+    }
+
+    /**
+     * 设置浮窗圆角半径
+     */
+    public TransformersTip setRadiusDp(int value) {
+        mArrowDrawable.setRadiusPx(ArrowDrawable.dp2px(getContentView().getContext(), value));
+        return this;
+    }
+
+    /**
+     * 设置浮窗圆角半径
+     */
+    public TransformersTip setRadiusRes(@DimenRes int resId) {
+        mArrowDrawable.setRadiusPx(getContentView().getResources().getDimensionPixelOffset(resId));
+        return this;
+    }
+
+    /**
+     * 设置箭头相对于浮窗的位置
+     */
+    public TransformersTip setArrowGravity(@ArrowGravity int arrowGravity) {
+        mArrowDrawable.setArrowGravity(arrowGravity);
+        return this;
+    }
+
+    /**
+     * 设置箭头在 x 轴的偏移量
+     */
+    public TransformersTip setArrowOffsetXDp(int value) {
+        mArrowDrawable.setArrowOffsetXPx(ArrowDrawable.dp2px(getContentView().getContext(), value));
+        return this;
+    }
+
+    /**
+     * 设置箭头在 x 轴的偏移量
+     */
+    public TransformersTip setArrowOffsetXRes(@DimenRes int resId) {
+        mArrowDrawable.setArrowOffsetXPx(getContentView().getResources().getDimensionPixelOffset(resId));
+        return this;
+    }
+
+    /**
+     * 设置箭头在 y 轴的偏移量
+     */
+    public TransformersTip setArrowOffsetYDp(int value) {
+        mArrowDrawable.setArrowOffsetYPx(ArrowDrawable.dp2px(getContentView().getContext(), value));
+        return this;
+    }
+
+    /**
+     * 设置箭头在 y 轴的偏移量
+     */
+    public TransformersTip setArrowOffsetYRes(@DimenRes int resId) {
+        mArrowDrawable.setArrowOffsetYPx(getContentView().getResources().getDimensionPixelOffset(resId));
+        return this;
+    }
+
+    /**
+     * 设置阴影宽度
+     */
+    public TransformersTip setShadowSizeDp(int value) {
+        mArrowDrawable.setShadowSizePx(ArrowDrawable.dp2px(getContentView().getContext(), value));
+        return this;
+    }
+
+    /**
+     * 设置阴影宽度
+     */
+    public TransformersTip setShadowSizeRes(@DimenRes int resId) {
+        mArrowDrawable.setShadowSizePx(getContentView().getResources().getDimensionPixelOffset(resId));
+        return this;
+    }
+
+    /**
      * 设置浮窗相对于锚点控件展示的位置
      */
     public TransformersTip setTipGravity(@TipGravity int tipGravity) {
@@ -96,8 +222,8 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
     /**
      * 设置浮窗在 x 轴的偏移量
      */
-    public TransformersTip setTipOffsetXDp(int tipOffsetX) {
-        mTipOffsetX = tipOffsetX;
+    public TransformersTip setTipOffsetXDp(int value) {
+        mTipOffsetX = ArrowDrawable.dp2px(getContentView().getContext(), value);
         return this;
     }
 
@@ -112,8 +238,8 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
     /**
      * 设置浮窗在 y 轴的偏移量
      */
-    public TransformersTip setTipOffsetYDp(int tipOffsetY) {
-        mTipOffsetY = tipOffsetY;
+    public TransformersTip setTipOffsetYDp(int value) {
+        mTipOffsetY = ArrowDrawable.dp2px(getContentView().getContext(), value);
         return this;
     }
 
@@ -137,6 +263,9 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
      * 显示浮窗
      */
     public TransformersTip show() {
+        expandShadowAndArrowPadding();
+        getContentView().measure(makeDropDownMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT), makeDropDownMeasureSpec(ViewGroup.LayoutParams.WRAP_CONTENT));
+
         if ((mTipGravity & VerticalGravity.CENTER) == VerticalGravity.CENTER ||
                 (mTipGravity & VerticalGravity.ALIGN_TOP) == VerticalGravity.ALIGN_TOP ||
                 (mTipGravity & VerticalGravity.TO_TOP) == VerticalGravity.TO_TOP ||
@@ -160,7 +289,8 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         handleOnDismiss();
     }
 
-    private void initPaddingBackgroundDrawable(View contentView) {
+    private void expandShadowAndArrowPadding() {
+        View contentView = getContentView();
         Drawable background = contentView.getBackground();
         if (!(background instanceof ArrowDrawable)) {
             return;
@@ -174,6 +304,10 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
      * 初始化默认属性
      */
     private void initDefaultAttributes() {
+        mTipGravity = TipGravity.TO_TOP_CENTER;
+        mTipOffsetX = 0;
+        mTipOffsetY = 0;
+
         setOnDismissListener(this);
         setFocusable(true);
         setOutsideTouchable(true);

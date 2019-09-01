@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.bingoogolapple.transformerstip.view.TransformersTipLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    app:ad_arrowExtraOffsetX="0dp"
+    app:ad_arrowExtraOffsetY="0dp"
+    app:ad_arrowGravity="to_top_center"
+    app:ad_arrowHeight="6dp"
+    app:ad_bgColor="@android:color/black"
+    app:ad_radius="4dp"
+    app:ad_shadowColor="#33000000"
+    app:ad_shadowSize="6dp">
 
     <TextView
         android:id="@+id/tv_tip_content"
@@ -10,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="B -> bingo\nG googol\nA -> apple\nBGA -> bingoogolapple"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/tv_tip_close"
@@ -21,5 +31,5 @@
         android:layout_gravity="top"
         android:padding="4dp"
         android:text="x"
-        android:textColor="@android:color/black" />
-</LinearLayout>
+        android:textColor="@android:color/white" />
+</cn.bingoogolapple.transformerstip.view.TransformersTipLinearLayout>
