@@ -1,5 +1,6 @@
 package cn.bingoogolapple.transformerstip.demo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,10 +38,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.mb_test).setOnClickListener(new View.OnClickListener() {
+        test(R.id.mb_test, TestActivity.class);
+        test(R.id.mb_recyclerview_test, RecyclerViewTestActivity.class);
+    }
+
+    private void test(int id, final Class<? extends Activity> clazz) {
+        findViewById(id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, TestActivity.class));
+                startActivity(new Intent(MainActivity.this, clazz));
             }
         });
     }
