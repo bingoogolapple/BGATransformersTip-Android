@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,14 +62,18 @@ public class MainActivity extends AppCompatActivity {
                 contentView.findViewById(R.id.tv_tip_close).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dismiss();
+                        dismissTip();
                     }
                 });
             }
-        }.setTipGravity(TipGravity.TO_BOTTOM_CENTER) // 设置浮窗相对于锚点控件展示的位置
+        }
+                .setTipGravity(TipGravity.TO_BOTTOM_CENTER) // 设置浮窗相对于锚点控件展示的位置
                 .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
                 .setTipOffsetYDp(-6) // 设置浮窗在 y 轴的偏移量
+
                 .setBackgroundDimEnabled(true) // 设置是否允许浮窗的背景变暗
+                .setDismissOnTouchOutside(false) // 设置点击浮窗外部时是否自动关闭浮窗
+
                 .show(); // 显示浮窗
     }
 
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 contentView.findViewById(R.id.tv_tip_close).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dismiss();
+                        dismissTip();
                     }
                 });
             }
@@ -99,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
                 .setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
                 .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
                 .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
+
                 .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
+                .setDismissOnTouchOutside(false) // 设置点击浮窗外部时是否自动关闭浮窗
 
                 .show(); // 显示浮窗
     }
@@ -114,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 .setTextPaddingDp(12) // 设置文字与浮窗边框的间距
                 .setTextColor(Color.BLACK) // 设置文字颜色
                 .setTextSizeSp(14) // 设置文字大小
+                .setTextGravity(Gravity.CENTER) // 设置文字对其方式
+                .setLineSpacingExtraDp(4) // 设置文字行间距
 
                 .setArrowGravity(ArrowGravity.TO_BOTTOM_ALIGN_START) // 设置箭头相对于浮窗的位置
                 .setBgColor(Color.WHITE) // 设置背景色
@@ -127,7 +136,9 @@ public class MainActivity extends AppCompatActivity {
                 .setTipGravity(TipGravity.TO_TOP_ALIGN_START) // 设置浮窗相对于锚点控件展示的位置
                 .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
                 .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
+
                 .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
+                .setDismissOnTouchOutside(true) // 设置点击浮窗外部时是否自动关闭浮窗
 
                 .show(); // 显示浮窗
     }

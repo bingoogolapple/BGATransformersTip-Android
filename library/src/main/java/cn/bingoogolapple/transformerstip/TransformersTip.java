@@ -33,6 +33,7 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
     private int mTipOffsetX; // 浮窗在 x 轴的偏移量
     private int mTipOffsetY; // 浮窗在 y 轴的偏移量
     private boolean mBackgroundDimEnabled = false; // 是否允许浮窗的背景变暗
+    private boolean mDismissOnTouchOutside = true; // 点击浮窗外部时是否自动关闭浮窗
     private ArrowDrawable mArrowDrawable;
 
     /**
@@ -260,6 +261,21 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
     }
 
     /**
+     * 设置点击浮窗外部时是否自动关闭浮窗
+     */
+    public TransformersTip setDismissOnTouchOutside(boolean dismissOnTouchOutside) {
+        mDismissOnTouchOutside = dismissOnTouchOutside;
+        return this;
+    }
+
+    /**
+     * 关闭浮窗
+     */
+    public void dismissTip() {
+        super.dismiss();
+    }
+
+    /**
      * 显示浮窗
      */
     public TransformersTip show() {
@@ -307,6 +323,7 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         mTipGravity = TipGravity.TO_TOP_CENTER;
         mTipOffsetX = 0;
         mTipOffsetY = 0;
+        mDismissOnTouchOutside = true;
 
         setOnDismissListener(this);
         setFocusable(true);
@@ -315,6 +332,14 @@ public abstract class TransformersTip extends PopupWindow implements PopupWindow
         setClippingEnabled(false);
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    @Override
+    @Deprecated
+    public void dismiss() {
+        if (mDismissOnTouchOutside) {
+            super.dismiss();
+        }
     }
 
     private boolean isExist(@TipGravity int tipGravity, int directionGravity) {

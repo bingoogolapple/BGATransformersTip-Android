@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 1.0.5 *(2019-9-5)*
+----------------------------
+
+* TransformersTip 新增 setDismissOnTouchOutside 方法，设置点击浮窗外部时是否自动关闭浮窗
+* SimpleTextTip 新增 setTextGravity 方法，设置文字对其方式
+* SimpleTextTip 新增 setLineSpacingMultiplier、setLineSpacingExtraDp、setLineSpacingExtraRes 方法，设置行间距
+
 Version 1.0.4 *(2019-9-1)*
 ----------------------------
 

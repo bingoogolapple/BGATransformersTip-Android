@@ -78,19 +78,51 @@ public class SimpleTextTip extends TransformersTip {
     }
 
     /**
-     * 设置文字与浮窗边框的间距
+     * 设置文字对其方式
+     *
+     * @see android.view.Gravity
      */
-    public SimpleTextTip setTextPaddingDp(int padding) {
-        setTextPaddingPx(ArrowDrawable.dp2px(getContentView().getContext(), padding));
+    public SimpleTextTip setTextGravity(int gravity) {
+        mContentTv.setGravity(gravity);
+        return this;
+    }
+
+    /**
+     * 设置文字行间距的倍数
+     */
+    public SimpleTextTip setLineSpacingMultiplier(float mult) {
+        mContentTv.setLineSpacing(mContentTv.getLineSpacingExtra(), mult);
+        return this;
+    }
+
+    /**
+     * 设置文字行间距数值
+     */
+    public SimpleTextTip setLineSpacingExtraDp(int lineSpacingExtr) {
+        mContentTv.setLineSpacing(ArrowDrawable.dp2px(getContentView().getContext(), lineSpacingExtr), mContentTv.getLineSpacingMultiplier());
+        return this;
+    }
+
+    /**
+     * 设置文字行间距数值
+     */
+    public SimpleTextTip setLineSpacingExtraRes(@DimenRes int resId) {
+        mContentTv.setLineSpacing(getContentView().getResources().getDimensionPixelOffset(resId), mContentTv.getLineSpacingMultiplier());
         return this;
     }
 
     /**
      * 设置文字与浮窗边框的间距
      */
+    public SimpleTextTip setTextPaddingDp(int padding) {
+        return setTextPaddingPx(ArrowDrawable.dp2px(getContentView().getContext(), padding));
+    }
+
+    /**
+     * 设置文字与浮窗边框的间距
+     */
     public SimpleTextTip setTextPaddingRes(@DimenRes int resId) {
-        setTextPaddingPx(getContentView().getResources().getDimensionPixelOffset(resId));
-        return this;
+        return setTextPaddingPx(getContentView().getResources().getDimensionPixelOffset(resId));
     }
 
     private SimpleTextTip setTextPaddingPx(int padding) {

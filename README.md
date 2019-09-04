@@ -78,21 +78,25 @@ dependencies {
 ```
 * 在 Java 代码中设置浮窗位置
 ```Java
-new TransformersTip(anchorView, R.layout.layout_demo2_tip) {
+new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
     @Override
     protected void initView(View contentView) {
         // 点击浮窗中自定按钮关闭浮窗
         contentView.findViewById(R.id.tv_tip_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismissTip();
             }
         });
     }
-}.setTipGravity(TipGravity.TO_BOTTOM_CENTER) // 设置浮窗相对于锚点控件展示的位置
+}
+        .setTipGravity(TipGravity.TO_BOTTOM_CENTER) // 设置浮窗相对于锚点控件展示的位置
         .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
         .setTipOffsetYDp(-6) // 设置浮窗在 y 轴的偏移量
+
         .setBackgroundDimEnabled(true) // 设置是否允许浮窗的背景变暗
+        .setDismissOnTouchOutside(false) // 设置点击浮窗外部时是否自动关闭浮窗
+
         .show(); // 显示浮窗
 ```
 
@@ -131,14 +135,14 @@ new TransformersTip(anchorView, R.layout.layout_demo2_tip) {
 * 在 Java 代码中设置浮窗位置、浮窗背景、箭头位置
 
 ```Java
-new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
+new TransformersTip(anchorView, R.layout.layout_demo2_tip) {
     @Override
     protected void initView(View contentView) {
         // 点击浮窗中自定按钮关闭浮窗
         contentView.findViewById(R.id.tv_tip_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                dismissTip();
             }
         });
     }
@@ -155,7 +159,9 @@ new TransformersTip(anchorView, R.layout.layout_demo1_tip) {
         .setTipGravity(TipGravity.TO_TOP_CENTER) // 设置浮窗相对于锚点控件展示的位置
         .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
         .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
+
         .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
+        .setDismissOnTouchOutside(false) // 设置点击浮窗外部时是否自动关闭浮窗
 
         .show(); // 显示浮窗
 ```
@@ -168,6 +174,8 @@ new SimpleTextTip(anchorView)
         .setTextPaddingDp(12) // 设置文字与浮窗边框的间距
         .setTextColor(Color.BLACK) // 设置文字颜色
         .setTextSizeSp(14) // 设置文字大小
+        .setTextGravity(Gravity.CENTER) // 设置文字对其方式
+        .setLineSpacingExtraDp(4) // 设置文字行间距
 
         .setArrowGravity(ArrowGravity.TO_BOTTOM_ALIGN_START) // 设置箭头相对于浮窗的位置
         .setBgColor(Color.WHITE) // 设置背景色
@@ -181,7 +189,9 @@ new SimpleTextTip(anchorView)
         .setTipGravity(TipGravity.TO_TOP_ALIGN_START) // 设置浮窗相对于锚点控件展示的位置
         .setTipOffsetXDp(0) // 设置浮窗在 x 轴的偏移量
         .setTipOffsetYDp(6) // 设置浮窗在 y 轴的偏移量
+
         .setBackgroundDimEnabled(false) // 设置是否允许浮窗的背景变暗
+        .setDismissOnTouchOutside(true) // 设置点击浮窗外部时是否自动关闭浮窗
 
         .show(); // 显示浮窗
 ```
