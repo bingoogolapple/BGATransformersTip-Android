@@ -28,7 +28,11 @@ Android 通用 PopupWindow，再也不用找 UI 小姐姐切 .9 图片了，大�
 
 ```groovy
 dependencies {
+    // 使用 AndroidX 时
     implementation 'cn.bingoogolapple:bga-transformerstip:latestVersion@aar'
+    
+    // 没有使用 AndroidX 时
+    // implementation 'cn.bingoogolapple:bga-transformerstip-noandroidx:latestVersion@aar'
 }
 ```
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ArrowDrawable">
+        <!-- 背景色 -->
+        <attr format="reference|color" name="ad_bgColor" />
+        <!-- 阴影色 -->
+        <attr format="reference|color" name="ad_shadowColor" />
+        <!-- 箭头高度 -->
+        <attr format="dimension" name="ad_arrowHeight" />
+        <!-- 阴影宽度 -->
+        <attr format="dimension" name="ad_shadowSize" />
+        <!-- 浮窗圆角半径 -->
+        <attr format="dimension" name="ad_radius" />
+        <!-- 箭头在 x 轴的偏移量 -->
+        <attr format="dimension" name="ad_arrowExtraOffsetX" />
+        <!-- 箭头在 y 轴的偏移量 -->
+        <attr format="dimension" name="ad_arrowExtraOffsetY" />
+        <!-- 箭头相对于浮窗的位置 -->
+        <attr name="ad_arrowGravity">
+            <flag name="to_top_align_start" value="65" />
+            <flag name="to_top_center" value="129" />
+            <flag name="to_top_align_end" value="257" />
+
+            <flag name="align_top_to_start" value="34" />
+            <flag name="align_top_to_end" value="514" />
+
+            <flag name="center_to_start" value="36" />
+            <flag name="center_to_end" value="516" />
+
+            <flag name="align_bottom_to_start" value="40" />
+            <flag name="align_bottom_to_end" value="520" />
+
+            <flag name="to_bottom_align_start" value="80" />
+            <flag name="to_bottom_center" value="144" />
+            <flag name="to_bottom_align_end" value="272" />
+        </attr>
+    </declare-styleable>
+
+</resources>
