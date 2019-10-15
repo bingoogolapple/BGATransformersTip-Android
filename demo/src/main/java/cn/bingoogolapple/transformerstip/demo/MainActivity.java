@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTextGravity(Gravity.CENTER) // 设置文字对其方式
                 .setLineSpacingExtraDp(4) // 设置文字行间距
 
-                .setArrowGravity(ArrowGravity.TO_BOTTOM_ALIGN_START) // 设置箭头相对于浮窗的位置
+                .setArrowGravity(ArrowGravity.TO_BOTTOM_CENTER) // 设置箭头相对于浮窗的位置
                 .setBgColor(Color.WHITE) // 设置背景色
                 .setShadowColor(Color.parseColor("#33000000")) // 设置阴影色
                 .setArrowHeightDp(6) // 设置箭头高度

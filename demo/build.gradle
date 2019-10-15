@@ -19,13 +19,13 @@ android {
 }
 
 dependencies {
-//    implementation project(':library')
+    implementation project(':library')
 
     // 使用 AndroidX 时
-     implementation 'cn.bingoogolapple:bga-transformerstip:1.0.6@aar'
+//     implementation 'cn.bingoogolapple:bga-transformerstip:1.0.7@aar'
 
     // 没有使用 AndroidX 时
-//    implementation 'cn.bingoogolapple:bga-transformerstip-noandroidx:1.0.6@aar'
+//    implementation 'cn.bingoogolapple:bga-transformerstip-noandroidx:1.0.7@aar'
 
-    implementation 'com.google.android.material:material:1.1.0-alpha10'
+    implementation 'com.google.android.material:material:1.1.0-beta01'
 }

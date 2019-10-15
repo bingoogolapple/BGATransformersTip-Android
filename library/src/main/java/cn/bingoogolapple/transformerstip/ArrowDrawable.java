@@ -216,7 +216,7 @@ public class ArrowDrawable extends Drawable {
         } else if (isExist(HorizontalGravity.ALIGN_START)) {
             centerPointF.x = excludeShadowRectF.left + mArrowHeight;
         } else if (isExist(HorizontalGravity.CENTER)) {
-            centerPointF.x = excludeShadowRectF.width() / 2;
+            centerPointF.x = viewRect.width() / 2;
         } else if (isExist(HorizontalGravity.ALIGN_END)) {
             centerPointF.x = excludeShadowRectF.right - mArrowHeight;
         } else if (isExist(HorizontalGravity.TO_END)) {
@@ -231,7 +231,7 @@ public class ArrowDrawable extends Drawable {
         } else if (isExist(VerticalGravity.ALIGN_TOP)) {
             centerPointF.y = excludeShadowRectF.top + mArrowHeight;
         } else if (isExist(VerticalGravity.CENTER)) {
-            centerPointF.y = excludeShadowRectF.height() / 2;
+            centerPointF.y = viewRect.height() / 2;
         } else if (isExist(VerticalGravity.ALIGN_BOTTOM)) {
             centerPointF.y = excludeShadowRectF.bottom - mArrowHeight;
         } else if (isExist(VerticalGravity.TO_BOTTOM)) {
