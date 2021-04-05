@@ -24,7 +24,9 @@ Android 通用 PopupWindow，再也不用找 UI 小姐姐切 .9 图片了，大�
 ## 使用说明
 
 ### 添加 Gradle 依赖
-[![Download](https://jitpack.io/v/bingoogolapple/BGATransformersTip-Android.svg)](https://jitpack.io/#bingoogolapple/BGATransformersTip-Android) 末尾的「latestVersion」指的是左边这个 Download 徽章后面的「数字」，请自行替换。
+
+* 把 `maven { url 'https://jitpack.io' }` 加入到 repositories 中
+* 添加如下依赖，末尾的「latestVersion」指的是徽章 [![Download](https://jitpack.io/v/bingoogolapple/BGATransformersTip-Android.svg)](https://jitpack.io/#bingoogolapple/BGATransformersTip-Android) 里的版本名称，请自行替换。
 
 ```groovy
 dependencies {
