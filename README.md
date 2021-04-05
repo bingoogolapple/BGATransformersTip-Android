@@ -24,15 +24,15 @@ Android 通用 PopupWindow，再也不用找 UI 小姐姐切 .9 图片了，大�
 ## 使用说明
 
 ### 添加 Gradle 依赖
-[![Download](https://api.bintray.com/packages/bingoogolapple/maven/bga-transformerstip/images/download.svg)](https://bintray.com/bingoogolapple/maven/bga-transformerstip/_latestVersion) bga-transformerstip 后面的「latestVersion」指的是左边这个 Download 徽章后面的「数字」，请自行替换。
+[![Download](https://jitpack.io/v/bingoogolapple/BGATransformersTip-Android.svg)](https://jitpack.io/#bingoogolapple/BGATransformersTip-Android) 末尾的「latestVersion」指的是左边这个 Download 徽章后面的「数字」，请自行替换。
 
 ```groovy
 dependencies {
     // 使用 AndroidX 时
-    implementation 'cn.bingoogolapple:bga-transformerstip:latestVersion@aar'
+    implementation 'com.github.bingoogolapple.BGATransformersTip-Android:library:latestVersion@aar'
     
     // 没有使用 AndroidX 时
-    // implementation 'cn.bingoogolapple:bga-transformerstip-noandroidx:latestVersion@aar'
+    // implementation 'com.github.bingoogolapple.BGATransformersTip-Android:library-noandroidx:latestVersion@aar'
 }
 ```
 
